@@ -3,211 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perun AI - Obudź Gromowładną Moc na Torze!</title>
-    <meta name="description" content="Perun AI - Twój słowiański sojusznik w dążeniu do mistrzostwa na torze kartingowym. Analiza AI, spersonalizowane strategie, legendarna przewaga. Zapisz się!">
+    <title>Perun AI - Twój Bielik Przewodnik po Torze Kartingowym! Gotów do Lotu?</title>
+    <meta name="description" content="Perun AI: Dołącz do stada najszybszych! Analiza AI z lotu ptaka, wskazówki od Twojego osobistego Bielika. Zapisz się i lataj po torze jak mistrz!">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Lato', sans-serif;
+            font-family: 'Nunito', sans-serif;
             scroll-behavior: smooth;
-            background-color: #101010; /* Głęboka, mroczna czerń/grafit */
-            color: #E0E0E0; /* Jasnoszary dla tekstu */
+            background-color: #F3F4F6; /* Jasnoszary, czyste tło */
+            color: #1F2937; /* Ciemnoszary tekst */
         }
-        .font-russo {
-            font-family: 'Russo One', sans-serif; /* Mocny, techniczny, lekko "słowiański" font */
+        .font-fredoka {
+            font-family: 'Fredoka One', cursive; /* Zabawny, kreskówkowy font dla nagłówków */
         }
-        .hero-bg-v3 {
-            /* Sugestia: Tło z motywem błyskawic, ciemnego lasu lub stylizowanego symbolu Peruna na tle toru */
-            background-image: url('https://placehold.co/1920x1080/101010/D32F2F?text=Moc+Peruna+AI');
+        .hero-bg-v6 { /* Nazwa klasy zachowana dla spójności, ale to v7 */
+            /* Sugestia: Jasne, dynamiczne tło z kreskówkowym motywem toru, flag, może zarys chmur i słońca */
+            background: linear-gradient(to bottom, #60A5FA, #A5CFF7 60%, #BFDBFE); /* Jaśniejszy gradient nieba */
             background-size: cover;
             background-position: center;
-            position: relative;
+            overflow: hidden; 
         }
-        .hero-bg-v3::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, rgba(16,16,16,0.7) 0%, rgba(16,16,16,1) 100%);
-            z-index: 1;
-        }
-        .content-z {
-            position: relative;
-            z-index: 2;
-        }
+        
+        .bielik-red { color: #EF4444; } 
+        .bielik-red-bg { background-color: #EF4444; }
+        .bielik-red-bg-hover:hover { background-color: #DC2626; }
 
-        .perun-red { color: #C62828; } /* Głęboka, mocna czerwień, jak krew lub ogień */
-        .perun-red-bg { background-color: #C62828; }
-        .perun-red-bg-hover:hover { background-color: #A32020; }
-        .perun-red-border { border-color: #C62828; }
+        .bielik-blue { color: #3B82F6; } 
+        .bielik-blue-bg { background-color: #3B82F6; }
+        .bielik-blue-bg-hover:hover { background-color: #2563EB; }
 
-        .perun-gray-light { color: #E0E0E0; }
-        .perun-gray-medium { color: #B0B0B0; }
-        .perun-gray-dark { background-color: #1F1F1F; } /* Ciemnoszary dla kart, jak kamień */
-        .perun-gray-border { border-color: #424242; } /* Ciemniejszy border */
-
-        ::-webkit-scrollbar {
-            width: 10px;
+        .bielik-yellow { color: #F59E0B; } 
+        .bielik-yellow-bg { background-color: #F59E0B; }
+        
+        .card-cartoon {
+            background: white;
+            border: 3px solid #1F2937; 
+            box-shadow: 8px 8px 0px #1F2937; 
+            transition: all 0.2s ease-out;
+            border-radius: 16px; /* Zaokrąglone rogi dla bardziej miękkiego, kreskówkowego stylu */
         }
-        ::-webkit-scrollbar-track {
-            background: #101010; 
+        .card-cartoon:hover {
+            transform: translate(-5px, -5px) rotate(-1deg); /* Dodano lekki obrót */
+            box-shadow: 12px 12px 0px #EF4444; 
         }
-        ::-webkit-scrollbar-thumb {
-            background: #C62828;
-            border-radius: 5px;
-            border: 2px solid #101010;
+        .button-cartoon {
+            border: 3px solid #1F2937;
+            box-shadow: 4px 4px 0px #1F2937;
+            transition: all 0.15s ease-out !important; /* Szybsza reakcja */
+            font-weight: 800; 
+            border-radius: 8px; /* Zaokrąglone rogi */
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #A32020;
+        .button-cartoon:hover {
+            transform: translate(-2px, -2px) !important;
+            box-shadow: 6px 6px 0px #1F2937 !important;
+            background-color: #F59E0B; /* Zmiana tła przycisku na żółty przy hover */
+            color: #1F2937;
         }
-
-        .section-title-perun {
-            text-shadow: 0 0 12px rgba(198,40,40,0.6);
+        .button-cartoon:active {
+            transform: translate(2px, 2px) !important;
+            box-shadow: 2px 2px 0px #1F2937 !important;
         }
-        .button-perun-glow:hover {
-            box-shadow: 0 0 18px rgba(198,40,40,0.4);
+        .section-title-cartoon {
+            text-shadow: 3px 3px 0px #E5E7EB, 5px 5px 0px #CBD5E1; /* Subtelnie wzmocniony cień */
         }
-        .card-perun-hover {
-            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-            border-width: 2px; /* Grubsza ramka dla "solidności" */
+        
+        .flying-bielik { 
+            animation: flyInZoom 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Bardziej dynamiczna animacja */
+            opacity: 0;
+            transform: translateX(-150px) scale(0.8);
         }
-        .card-perun-hover:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(198,40,40,0.25);
+        @keyframes flyInZoom { /* Nowa, bardziej dynamiczna animacja */
+            0% {
+                opacity: 0;
+                transform: translateX(-150px) scale(0.8) rotate(-15deg);
+            }
+            70% {
+                opacity: 1;
+                transform: translateX(10px) scale(1.05) rotate(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1) rotate(0deg);
+            }
         }
-        .nav-link-hover:hover {
-            color: #C62828;
-            text-shadow: 0 0 8px rgba(198,40,40,0.5);
+        .icon-bounce:hover { /* Animacja dla ikon w sekcji korzyści */
+            animation: bounceIcon 0.6s ease-in-out;
+        }
+        @keyframes bounceIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
     </style>
     <!-- 
-    PODSUMOWANIE PROJEKTOWE (v3):
-    Nowa Nazwa Produktu: Perun AI
-    Styl: Mocny, słowiański, "power", inspirowany siłą i tradycją.
-    Cel Strony: Zebranie zapisów na listę oczekujących na start MVP.
-    Grupa Docelowa: Amatorzy kartingu halowego w Polsce (18-45 lat), pasjonaci motorsportu, aktywni online, poszukujący poprawy umiejętności, sfrustrowani brakiem postępów, ceniący technologię i mierzalne wyniki, otwarci na silny, lokalny branding.
+    PODSUMOWANIE PROJEKTOWE (v7):
+    Nazwa Produktu: Perun AI
+    Styl: Kreskówkowy, z postacią Orła Bielika jako maskotki, zabawny, dynamiczny, polski. Wersja dopracowana.
+    Cel Strony: Zebranie zapisów na listę oczekujących na start MVP i budowanie zaangażowania.
 
-    Główne Założenia Projektowe (v3):
-    - Paleta kolorów: Głęboka czerń/grafit, mocna czerwień (jak ogień/krew), odcienie szarości (jak kamień/stal).
-    - Fonty: 'Russo One' dla nagłówków (mocny, techniczny, z charakterem), 'Lato' dla tekstu (czytelny, nowoczesny, polski projekt).
-    - Efekty wizualne: Subtelne "glow" na czerwonych elementach, solidne karty z wyraźnymi ramkami.
-    - Copywriting: Bardziej epicki, nawiązujący do siły, mocy, dziedzictwa, przewagi.
+    Główne Założenia Projektowe (v7):
+    - Paleta kolorów: Utrzymana z v6 - biały, czerwony, niebieski, żółty/złoty.
+    - Fonty: 'Fredoka One' dla nagłówków, 'Nunito' dla tekstu.
+    - Layout: Czysty, z dużymi, czytelnymi elementami, dynamiczne kompozycje, dodano zaokrąglenia.
+    - Wizualizacje: Bardziej szczegółowe opisy placeholderów dla ilustracji/ikon.
+    - Copywriting: Dopracowany, lekki, zabawny, angażujący, spójny.
     - Mobile-first i pełna responsywność.
-
-    Wybrana Paleta Kolorów (v3):
-    - Tło główne: Głęboka Czerń/Grafit (#101010)
-    - Tło kart/sekcji: Ciemny Szary (#1F1F1F)
-    - Tekst główny: Jasny Szary (#E0E0E0)
-    - Tekst drugorzędny: Średni Szary (#B0B0B0)
-    - Akcenty (CTA, podkreślenia, ikony): Mocna Czerwień (#C62828)
-
-    Fonty (v3):
-    - Nagłówki: Russo One (Google Fonts)
-    - Tekst główny: Lato (Google Fonts)
+    - Drobne ulepszenia animacji i interakcji.
     -->
 </head>
-<body class="text-perun-gray-light antialiased">
+<body class="antialiased">
 
-    <nav class="bg-black/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-2xl border-b-2 border-perun-gray-border">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-4xl font-russo perun-red section-title-perun">
-                PERUN<span class="text-white">AI</span>
+    <nav class="bg-white/90 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-lg border-b-2 border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-3xl sm:text-4xl font-fredoka bielik-red">
+                PERUN<span class="bielik-blue">.AI</span>
+                <span class="text-lg sm:text-xl bielik-yellow ml-1">🦅</span> 
             </a>
-            <div class="space-x-6">
-                <a href="#problem" class="text-lg font-semibold text-perun-gray-light nav-link-hover transition-colors duration-300">Problem</a>
-                <a href="#rozwiazanie" class="text-lg font-semibold text-perun-gray-light nav-link-hover transition-colors duration-300">Rozwiązanie</a>
-                <a href="#korzysci" class="text-lg font-semibold text-perun-gray-light nav-link-hover transition-colors duration-300">Korzyści</a>
-                <a href="#formularz" class="perun-red-bg hover:perun-red-bg-hover text-white font-russo py-3 px-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 button-perun-glow text-md">
-                    ZAPISZ SIĘ!
+            <div class="hidden md:flex space-x-5 lg:space-x-7 items-center">
+                <a href="#problem" class="text-gray-700 hover:bielik-blue transition-colors duration-300 text-md lg:text-lg font-semibold">Twoje Wyzwania</a>
+                <a href="#rozwiazanie" class="text-gray-700 hover:bielik-blue transition-colors duration-300 text-md lg:text-lg font-semibold">Nasza Pomoc</a>
+                <a href="#korzysci" class="text-gray-700 hover:bielik-blue transition-colors duration-300 text-md lg:text-lg font-semibold">Co Zyskasz?</a>
+                <a href="#faq" class="text-gray-700 hover:bielik-blue transition-colors duration-300 text-md lg:text-lg font-semibold">FAQ Bielika</a>
+            </div>
+            <div>
+                <a href="#formularz" class="bielik-red-bg hover:bielik-red-bg-hover text-white font-bold py-3 px-5 sm:px-6 rounded-lg button-cartoon text-sm sm:text-md tracking-wide">
+                    DOŁĄCZ DO STADA!
                 </a>
             </div>
         </div>
     </nav>
 
-    <header id="hero" class="hero-bg-v3 pt-48 pb-24 md:pt-64 md:pb-40 text-center text-white">
-        <div class="container mx-auto px-6 content-z">
-            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-russo font-black mb-8 leading-tight section-title-perun">
-                OBUDŹ <span class="perun-red">MOC PERUNA</span> NA TORZE!
+    <header id="hero" class="hero-bg-v6 pt-32 pb-20 md:pt-48 md:pb-24 text-center relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <img src="https://placehold.co/280x280/FFFFFF/EF4444?text=Uśmiechnięty+Bielik+w+Kasku+i+Gokarcie" 
+                 alt="Uśmiechnięty, kreskówkowy Orzeł Bielik w kasku i gokarcie, gotowy do wyścigu, machający skrzydłem" 
+                 class="mx-auto mb-8 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 rounded-full border-4 border-white shadow-2xl flying-bielik" style="animation-delay: 0.1s;">
+            
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-fredoka mb-6 leading-tight text-gray-800 section-title-cartoon">
+                PERUN AI: TWÓJ <span class="bielik-red">BIELIK</span> PRZEWODNIK PO TORZE!
             </h1>
-            <p class="text-xl md:text-2xl text-perun-gray-light mb-12 max-w-3xl mx-auto">
-                Twój słowiański sojusznik AI, który wykuwa mistrzów kartingu. Precyzyjna analiza, spersonalizowane strategie, legendarna przewaga. Czas na dominację!
+            <p class="text-lg sm:text-xl md:text-2xl text-gray-700 mb-10 max-w-md sm:max-w-xl md:max-w-2xl mx-auto font-semibold">
+                Masz dość kręcenia się w kółko bez postępów? Nasz Orzeł AI pokaże Ci, jak rozwinąć skrzydła i latać po torze kartingowym jak prawdziwy mistrz!
             </p>
-            <a href="#formularz" class="perun-red-bg hover:perun-red-bg-hover text-white font-russo font-bold py-5 px-16 rounded-lg text-2xl transition duration-300 ease-in-out transform hover:scale-105 shadow-xl button-perun-glow">
-                WEJDŹ DO KRĘGU WYBRANYCH - ZAPISZ SIĘ!
+            <a href="#formularz" 
+               class="bielik-red-bg hover:bielik-red-bg-hover text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-lg sm:text-xl button-cartoon font-fredoka tracking-wider">
+                CHCĘ LATAĆ SZYBCIEJ!
             </a>
-            <p class="mt-8 text-lg text-perun-gray-medium">Pierwsi wojownicy toru zyskują dostęp do pradawnej wiedzy i specjalnych darów!</p>
+            <p class="mt-6 text-sm sm:text-md text-gray-600 font-semibold">Zapisz się i zgarnij ekskluzywny pakiet startowy Orlego Adepta!</p>
         </div>
     </header>
 
-    <section id="problem" class="py-20 md:py-28 bg-black">
+    <section id="problem" class="py-16 md:py-24 bg-gray-50">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16 md:mb-20">
-                <h2 class="text-4xl md:text-5xl font-russo font-bold mb-6 perun-red section-title-perun">STAGNACJA? FRUSTRACJA? CZAS PRZEŁAMAĆ KLĄTWĘ!</h2>
-                <p class="text-xl text-perun-gray-light max-w-3xl mx-auto">Wkładasz serce i pot w każdy przejazd, a wyniki wciąż nie odzwierciedlają Twojego poświęcenia? Nie jesteś sam.</p>
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-fredoka mb-4 text-gray-800 section-title-cartoon">UPS! ZNÓW TEN SAM CZAS? <span class="bielik-yellow text-4xl md:text-5xl">🤔</span></h2>
+                <p class="text-md sm:text-lg text-gray-600 max-w-lg sm:max-w-xl md:max-w-2xl mx-auto">Jeśli te sytuacje brzmią znajomo, nasz Bielik ma dla Ciebie super-tajny plan ratunkowy!</p>
             </div>
-            <div class="grid md:grid-cols-3 gap-10">
-                <div class="bg-perun-gray-dark p-8 rounded-xl shadow-2xl border-perun-gray-border card-perun-hover text-center">
-                    <div class="perun-red mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-20 h-20 mx-auto">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" /> </svg>
-                    </div>
-                    <h3 class="text-2xl font-russo font-semibold mb-4 text-white">MUR NIEMOCY</h3>
-                    <p class="text-perun-gray-medium">Twoje czasy okrążeń zatrzymały się w miejscu. Czujesz, że uderzasz głową w niewidzialną ścianę.</p>
+            <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+                <div class="card-cartoon p-6 rounded-xl text-center">
+                    <img src="https://placehold.co/120x120/FEE2E2/EF4444?text=Smutny+Stoper+z+Łezką" 
+                         alt="Kreskówkowy stoper ze smutną miną i opadniętymi wskazówkami, może z małą łezką" 
+                         class="mx-auto mb-4 h-24 w-24 sm:h-28 sm:w-28">
+                    <h3 class="text-xl sm:text-2xl font-fredoka font-semibold mb-2 text-gray-800">CZAS STOI W MIEJSCU</h3>
+                    <p class="text-gray-600 text-sm sm:text-base">Masz wrażenie, że Twój stoper złośliwie zaciął się na jednym czasie, a Ty razem z nim?</p>
                 </div>
-                <div class="bg-perun-gray-dark p-8 rounded-xl shadow-2xl border-perun-gray-border card-perun-hover text-center">
-                    <div class="perun-red mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-20 h-20 mx-auto">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.002 12.002a3.002 3.002 0 11-6.004 0 3.002 3.002 0 016.004 0zM21 12c0 4.418-3.134 8-7 8s-7-3.582-7-8 3.134-8 7-8 7 3.582 7 8z" /> </svg>
-                    </div>
-                    <h3 class="text-2xl font-russo font-semibold mb-4 text-white">ZAKRYTE KARTY</h3>
-                    <p class="text-perun-gray-medium">Nie widzisz, gdzie tkwią Twoje błędy. Intuicja zawodzi, a postęp wymaga głębszego spojrzenia.</p>
+                <div class="card-cartoon p-6 rounded-xl text-center">
+                     <img src="https://placehold.co/120x120/DBEAFE/3B82F6?text=Bielik+Drapiący+się+po+Głowie" 
+                          alt="Kreskówkowy Bielik drapiący się po głowie ze znakiem zapytania nad nią" 
+                          class="mx-auto mb-4 h-24 w-24 sm:h-28 sm:w-28">
+                    <h3 class="text-xl sm:text-2xl font-fredoka font-semibold mb-2 text-gray-800">GDZIE TE BŁĘDY?</h3>
+                    <p class="text-gray-600 text-sm sm:text-base">Wiesz, że coś robisz nie tak, ale za Chiny Ludowe nie możesz dojść, co to takiego konkretnie?</p>
                 </div>
-                <div class="bg-perun-gray-dark p-8 rounded-xl shadow-2xl border-perun-gray-border card-perun-hover text-center">
-                    <div class="perun-red mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-20 h-20 mx-auto">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0l.879-.659M7.5 14.25l6-6M7.5 14.25l-6 6" /> </svg>
-                    </div>
-                    <h3 class="text-2xl font-russo font-semibold mb-4 text-white">ZŁOTE RUNY</h3>
-                    <p class="text-perun-gray-medium">Profesjonalna wiedza i analiza są jak mityczne skarby – cenne, lecz trudno dostępne dla zwykłego śmiertelnika.</p>
+                <div class="card-cartoon p-6 rounded-xl text-center">
+                    <img src="https://placehold.co/120x120/FEF3C7/F59E0B?text=Pusty+Portfel+z+Pajęczyną" 
+                         alt="Kreskówkowy pusty portfel z wyskakującą z niego pajęczyną" 
+                         class="mx-auto mb-4 h-24 w-24 sm:h-28 sm:w-28">
+                    <h3 class="text-xl sm:text-2xl font-fredoka font-semibold mb-2 text-gray-800">TRENER? ZA DROGO!</h3>
+                    <p class="text-gray-600 text-sm sm:text-base">Profesjonalny trener kosztuje fortunę, a Ty wolałbyś wydać zaskórniaki na... więcej odjazdowej jazdy!</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="rozwiazanie" class="py-20 md:py-28 bg-perun-gray-dark">
+    <section id="rozwiazanie" class="py-16 md:py-24 bg-bielik-blue text-white">
         <div class="container mx-auto px-6">
-            <div class="flex flex-col lg:flex-row items-center gap-12">
+            <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
                 <div class="lg:w-1/2">
-                    <img src="https://placehold.co/700x550/101010/C62828?text=Perun+AI+-+Magia+Analizy" alt="Interfejs Perun AI" class="rounded-xl shadow-2xl w-full border-2 border-perun-red">
+                    <img src="https://placehold.co/550x440/FFFFFF/3B82F6?text=Uśmiechnięty+Bielik+AI+z+Tabletem+Pokazującym+Wykresy" 
+                         alt="Uśmiechnięty, kreskówkowy Bielik-Trener w okularach, z tabletem pokazującym kolorowe wykresy i strzałki na torze" 
+                         class="rounded-2xl shadow-2xl w-full border-4 border-white transform hover:scale-105 transition-transform duration-300">
                 </div>
-                <div class="lg:w-1/2 lg:pl-12">
-                    <span class="perun-red font-russo font-semibold tracking-widest uppercase text-lg">MOC PRADZIADÓW, TECHNOLOGIA JUTRA</span>
-                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-russo font-bold my-5 text-white section-title-perun">PERUN AI: TWÓJ GROMOWŁADNY STRATEG NA TORZE</h2>
-                    <p class="text-xl text-perun-gray-light mb-8">
-                        Perun AI to pradawna mądrość połączona z potęgą sztucznej inteligencji. Odkryj sekrety mistrzowskiej jazdy, dostępne dotąd tylko dla wybranych. Czas, byś posiadł tę moc!
+                <div class="lg:w-1/2 lg:pl-10 text-center lg:text-left">
+                    <span class="bielik-yellow font-bold tracking-wider uppercase text-xs sm:text-sm bg-black/25 px-3 py-1.5 rounded-full inline-block mb-3">OTO ROZWIĄZANIE Z PAZUREM!</span>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-fredoka font-bold my-4 section-title-cartoon" style="text-shadow: 2px 2px 0px rgba(0,0,0,0.15);">PERUN AI: TWÓJ OSOBISTY ORZEŁ TRENER!</h2>
+                    <p class="text-md sm:text-lg mb-6">
+                        Koniec ze zgadywaniem i frustracją! Perun AI to Twój nowy, skrzydlaty super-pomocnik. Wykorzystuje kosmicznie inteligentną technologię (AI!), aby podglądać Twoją jazdę z lotu ptaka i dawać Ci proste, zrozumiałe wskazówki. To jak mieć własnego, mądrego Bielika szepczącego Ci do ucha sekrety każdego zakrętu!
                     </p>
-                    <ul class="space-y-4 text-perun-gray-light text-lg">
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 perun-red mr-4 flex-shrink-0">
-                                <path d="M11.226 1.062C11.033.607 10.28.283 9.738.43l-8.534 2.362a.75.75 0 00-.433 1.026l4.047 10.792a.75.75 0 00.888.518l2.84-.824-.163 4.88a.75.75 0 001.476.196l1.398-4.194 2.097.608a.75.75 0 00.888-.518l4.047-10.792a.75.75 0 00-.433-1.026L13.15.43a.75.75 0 00-.712-.144L11.226 1.06zM12 15.75a.75.75 0 00.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75h-.01a.75.75 0 00-.75.75v3.75z"/> </svg>
-                            <span><strong>Boska Personalizacja AI:</strong> Wskazówki wykute specjalnie dla Ciebie, jak oręż legendarnego wojownika.</span>
+                    <ul class="space-y-3 text-md sm:text-lg">
+                        <li class="flex items-center justify-center lg:justify-start">
+                            <span class="bielik-yellow-bg text-gray-800 rounded-full p-2.5 mr-3 font-bold text-xl">🦅</span>
+                            <span><strong>Analiza z Orlą Precyzją:</strong> Wyłapujemy błędy, których sam nie widzisz!</span>
                         </li>
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 perun-red mr-4 flex-shrink-0">
-                                 <path d="M11.226 1.062C11.033.607 10.28.283 9.738.43l-8.534 2.362a.75.75 0 00-.433 1.026l4.047 10.792a.75.75 0 00.888.518l2.84-.824-.163 4.88a.75.75 0 001.476.196l1.398-4.194 2.097.608a.75.75 0 00.888-.518l4.047-10.792a.75.75 0 00-.433-1.026L13.15.43a.75.75 0 00-.712-.144L11.226 1.06zM12 15.75a.75.75 0 00.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75h-.01a.75.75 0 00-.75.75v3.75z"/>
-                            </svg>
-                            <span><strong>Miażdżąca Siła Postępu:</strong> Poczuj moc gromu, gdy Twoje czasy topnieją, a rywale zostają w tyle.</span>
+                        <li class="flex items-center justify-center lg:justify-start">
+                           <span class="bielik-yellow-bg text-gray-800 rounded-full p-2.5 mr-3 font-bold text-xl">🎯</span>
+                            <span><strong>Wskazówki Prosto do Celu:</strong> Konkretne porady, co i jak poprawić, bez lania wody.</span>
                         </li>
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 perun-red mr-4 flex-shrink-0">
-                                 <path d="M11.226 1.062C11.033.607 10.28.283 9.738.43l-8.534 2.362a.75.75 0 00-.433 1.026l4.047 10.792a.75.75 0 00.888.518l2.84-.824-.163 4.88a.75.75 0 001.476.196l1.398-4.194 2.097.608a.75.75 0 00.888-.518l4.047-10.792a.75.75 0 00-.433-1.026L13.15.43a.75.75 0 00-.712-.144L11.226 1.06zM12 15.75a.75.75 0 00.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75h-.01a.75.75 0 00-.75.75v3.75z"/>
-                            </svg>
-                            <span><strong>Wiedza Przodków w Zasięgu Ręki:</strong> Profesjonalna analiza dostępna dla każdego, kto pragnie mocy.</span>
+                        <li class="flex items-center justify-center lg:justify-start">
+                            <span class="bielik-yellow-bg text-gray-800 rounded-full p-2.5 mr-3 font-bold text-xl">🏆</span>
+                            <span><strong>Szybuj po Rekordy:</strong> Zobacz, jak Twoje czasy spadają, a zabawa rośnie w oczach!</span>
                         </li>
                     </ul>
                 </div>
@@ -215,189 +220,145 @@
         </div>
     </section>
 
-    <section id="korzysci" class="py-20 md:py-28 bg-black">
+    <section id="korzysci" class="py-16 md:py-24 bg-gray-50">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16 md:mb-20">
-                <h2 class="text-4xl md:text-5xl font-russo font-bold mb-6 perun-red section-title-perun">CO ZYSKASZ DZIĘKI MOCY PERUNA AI (MVP)?</h2>
-                <p class="text-xl text-perun-gray-light max-w-3xl mx-auto">Pierwsza wersja (MVP) to Twój pierwszy krok na ścieżce wojownika toru. Otrzymasz kluczowe narzędzia, by zasiać postrach wśród rywali.</p>
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-fredoka mb-4 text-gray-800 section-title-cartoon">CO ZYSKASZ Z PERUN AI (MVP)? <span class="bielik-red text-4xl md:text-5xl">🚀</span></h2>
+                <p class="text-md sm:text-lg text-gray-600 max-w-lg sm:max-w-xl md:max-w-2xl mx-auto">Nasza pierwsza wersja (MVP) to prawdziwy zastrzyk super-mocy dla Twoich umiejętności na torze!</p>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
                 {[
-                    { title: "Zapis Pradawnych Danych", description: "Aplikacja mobilna (MVP) niczym kronikarz zapisze kluczowe dane z Twojej jazdy: prędkość, przeciążenia, czasy okrążeń i sektorów, z boską precyzją.", icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-12 h-12"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>` },
-                    { title: "Boska Analiza AI", description: "Algorytmy Peruna AI, niczym wszechwidzące oko, przeanalizują zebrane dane, odkrywając Twoje unikalne talenty i słabości.", icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-12 h-12"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>` },
-                    { title: "Wskazówki Starych Mistrzów", description: "Zapomnij o niejasnych radach. Otrzymasz konkretne, zrozumiałe i praktyczne wskazówki, jakby szeptał Ci je sam duch toru.", icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-12 h-12"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-6.75 3h9m-9 3H12M3 3h18M3 7.5h18M3 12h18m-3 4.5h3M3 16.5h18m-3 4.5h3M3 21h18" /></svg>` },
-                    { title: "Ścieżka Chwały", description: "Obserwuj, jak Twoje umiejętności rosną, a czasy topnieją. Każda sesja z Perun AI to krok ku legendzie.", icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-12 h-12"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>` },
-                    { title: "Zrozumienie Mocy", description: "Nie tylko jedź szybciej – zrozum, skąd bierze się Twoja siła na torze. Stań się świadomym władcą swojej maszyny.", icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-12 h-12"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" /></svg>` },
-                    { title: "Furia Zwycięzcy", description: "Poczuj prawdziwą adrenalinę i satysfakcję, gdy zdominujesz tor, czując pełną kontrolę i moc Peruna.", icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-12 h-12"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0-1.314 1.002-2.425 2.25-2.612M14.25 9.75c0-1.314-1.002-2.425-2.25-2.612M12 17.25V12" /></svg>` }
+                    { title: "Dane z Lotu Ptaka", description: "Apka mobilna (MVP) zbierze dane z Twojego smartfona – jakby Bielik patrzył na Twój przejazd z góry i notował wszystko w swoim super-notesie!", icon: `https://placehold.co/150x150/DBEAFE/3B82F6?text=Kreskówkowy+Smartfon+z+Okiem+Bielika+i+Notatnikiem` },
+                    { title: "Mądrość Orła AI", description: "Nasze sprytne AI, niczym detektyw z piórami, przeanalizuje dane i znajdzie miejsca, gdzie możesz urwać cenne sekundy.", icon: `https://placehold.co/150x150/FEF3C7/F59E0B?text=Kreskówkowy+Mózg+Bielika+z+Lupą+i+Trybikami+AI` },
+                    { title: "Proste Rady, Wielkie Efekty", description: "Dostaniesz łatwe do zrozumienia wskazówki, np. jak lepiej pokonać ten wredny zakręt, który zawsze psuje Ci humor.", icon: `https://placehold.co/150x150/FEE2E2/EF4444?text=Kreskówkowy+Dymek+z+Przyjazną+Radą+od+Bielika` },
+                    { title: "Śledź Swój Lot ku Górze", description: "Obserwuj na kolorowych wykresach, jak Twoje czasy spadają, a umiejętności rosną z każdym odbytym treningiem!", icon: `https://placehold.co/150x150/D1FAE5/10B981?text=Kreskówkowy+Wykres+Wzrostu+ze+Strzałką+i+Sylwetką+Lecącego+Bielika` },
+                    { title: "Zrozum Swoją Jazdę", description: "Nie tylko szybciej, ale i mądrzej! Zrozumiesz, co robisz dobrze, a co można poprawić, by jeździć jak zawodowiec.", icon: `https://placehold.co/150x150/E0E7FF/6366F1?text=Kreskówkowa+Żarówka+z+Symbolem+Oka+Bielika+nad+Głową+Kierowcy` },
+                    { title: "Więcej Funu z Jazdy!", description: "Lepsze wyniki to większa frajda! Poczuj czystą radość z bycia coraz szybszym Orłem Toru i zaimponuj znajomym!", icon: `https://placehold.co/150x150/FCE7F3/EC4899?text=Uśmiechnięty+Kreskówkowy+Bielik+na+Podium+z+Pucharem+i+Konfetti` }
                 ].map(item => `
-                <div class="bg-perun-gray-dark p-8 rounded-xl shadow-2xl border-perun-gray-border card-perun-hover flex flex-col items-center text-center">
-                    <div class="perun-red bg-black p-4 rounded-full mb-6 inline-block">
-                        ${item.icon}
-                    </div>
-                    <h3 class="text-2xl font-russo font-semibold mb-3 text-white">${item.title}</h3>
-                    <p class="text-perun-gray-medium text-md">${item.description}</p>
+                <div class="card-cartoon p-6 rounded-xl flex flex-col items-center text-center">
+                    <img src="${item.icon}" alt="${item.title}" class="mx-auto mb-5 h-32 w-32 sm:h-36 sm:w-36 rounded-lg border-2 border-gray-300 icon-bounce">
+                    <h3 class="text-lg sm:text-xl font-fredoka font-semibold mb-2 text-gray-800">${item.title}</h3>
+                    <p class="text-gray-600 text-xs sm:text-sm">${item.description}</p>
                 </div>
                 `).join('')}
             </div>
         </div>
     </section>
-
-    <section id="jak-dziala" class="py-20 md:py-28 bg-perun-gray-dark">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16 md:mb-20">
-                <h2 class="text-4xl md:text-5xl font-russo font-bold mb-6 perun-red section-title-perun">RYTUAŁ MOCY: PROSTY I SKUTECZNY</h2>
-                <p class="text-xl text-perun-gray-light max-w-3xl mx-auto">Wejście w świat Perun AI jest proste jak uderzenie pioruna. Bez zbędnych komplikacji, czysta potęga.</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-10 text-left">
-                <div class="bg-black p-10 rounded-xl shadow-2xl border-2 border-perun-red transform hover:scale-105 transition duration-300">
-                    <div class="flex items-center mb-6">
-                        <div class="perun-red-bg text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl font-russo font-bold mr-5">1</div>
-                        <h3 class="text-2xl font-russo font-semibold text-white">WEZWIJ MOC</h3>
-                    </div>
-                    <p class="text-perun-gray-medium text-lg">Zapisz się na listę. Po premierze MVP, pobierz aplikację Perun AI. Przygotuj się na transformację.</p>
-                </div>
-                <div class="bg-black p-10 rounded-xl shadow-2xl border-2 border-perun-red transform hover:scale-105 transition duration-300">
-                     <div class="flex items-center mb-6">
-                        <div class="perun-red-bg text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl font-russo font-bold mr-5">2</div>
-                        <h3 class="text-2xl font-russo font-semibold text-white">UJARZMIJ TOR</h3>
-                    </div>
-                    <p class="text-perun-gray-medium text-lg">Uruchom aplikację przed każdą bitwą na torze. Perun AI w tle zbierze dane, niczym skryba zapisujący Twoje czyny.</p>
-                </div>
-                <div class="bg-black p-10 rounded-xl shadow-2xl border-2 border-perun-red transform hover:scale-105 transition duration-300">
-                     <div class="flex items-center mb-6">
-                        <div class="perun-red-bg text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl font-russo font-bold mr-5">3</div>
-                        <h3 class="text-2xl font-russo font-semibold text-white">ZDOBĄDŹ CHWAŁĘ</h3>
-                    </div>
-                    <p class="text-perun-gray-medium text-lg">Po walce, zanurz się w analizie AI. Otrzymaj boskie wskazówki i wdrażaj je, by siać postrach na torze!</p>
-                </div>
-            </div>
-        </div>
-    </section>
     
-    <section id="opinie" class="py-20 md:py-28 bg-black">
+    <section id="faq" class="py-16 md:py-24 bg-bielik-blue text-white">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16 md:mb-20">
-                <h2 class="text-4xl md:text-5xl font-russo font-bold mb-6 perun-red section-title-perun">PIEŚNI WOJOWNIKÓW TORU</h2>
-                <p class="text-xl text-perun-gray-light max-w-3xl mx-auto">(Wkrótce usłyszysz echa zwycięstw pierwszych kierowców, którzy zaufali mocy Perun AI!)</p>
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-fredoka mb-4 section-title-cartoon" style="text-shadow: 2px 2px 0px rgba(0,0,0,0.15);">BIELIK ODPOWIADA NA PYTANIA! <span class="bielik-yellow text-4xl md:text-5xl">📢</span></h2>
             </div>
-            <div class="grid md:grid-cols-2 gap-10">
-                <div class="bg-perun-gray-dark p-10 rounded-xl shadow-2xl border border-perun-gray-border">
-                    <p class="text-perun-gray-light italic text-lg mb-6">"Placeholder: Perun AI to czysta magia! W końcu wiem, gdzie traciłem cenne chwile. Moje czasy runęły w dół, a ja czuję się niezwyciężony!"</p>
-                    <p class="text-right font-russo font-semibold perun-red text-xl">- Placeholder Wojownika #1, Pogromca Torów</p>
-                </div>
-                <div class="bg-perun-gray-dark p-10 rounded-xl shadow-2xl border border-perun-gray-border">
-                    <p class="text-perun-gray-light italic text-lg mb-6">"Placeholder: To jak mieć pradawnego boga prędkości za osobistego doradcę. Konkretne rady, zero owijania w bawełnę. Dla każdego, kto pragnie prawdziwej mocy!"</p>
-                    <p class="text-right font-russo font-semibold perun-red text-xl">- Placeholder Wojowniczki #2, Królowa Apexu</p>
-                </div>
-            </div>
-             <div class="mt-16 text-center">
-                <p class="text-perun-gray-medium text-lg">Chcesz, by Twoja pieśń zwycięstwa rozbrzmiała? Dołącz do wybrańców Peruna!</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="faq" class="py-20 md:py-28 bg-perun-gray-dark">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16 md:mb-20">
-                <h2 class="text-4xl md:text-5xl font-russo font-bold mb-6 perun-red section-title-perun">PRADAWNE PYTANIA, BOSKIE ODPOWIEDZI</h2>
-            </div>
-            <div class="max-w-4xl mx-auto space-y-8">
+            <div class="max-w-2xl mx-auto space-y-5">
                 {[
-                    { q: "Czym dokładnie jest Perun AI?", a: "Perun AI to platforma SaaS (Software as a Service) z aplikacją mobilną, która łączy pradawną mądrość strategii z mocą sztucznej inteligencji. Analizuje Twoje dane telemetryczne z jazdy na torze kartingowym, dostarczając spersonalizowane wskazówki, byś mógł osiągnąć mistrzostwo." },
-                    { q: "Dla kogo przeznaczony jest Perun AI?", a: "Perun AI został stworzony dla polskich amatorów kartingu (i w przyszłości innych dyscyplin motorsportu), w wieku 18-45 lat. To idealne narzędzie dla pasjonatów, którzy pragną świadomie rozwijać swoje umiejętności, są zmęczeni stagnacją i cenią innowacyjne technologie oraz mierzalne rezultaty." },
-                    { q: "Jakich danych potrzebuje Perun AI do analizy?", a: "Wersja MVP będzie czerpać moc z precyzyjnych danych z czujników Twojego smartfona (GPS, akcelerometr), zbierając informacje takie jak prędkość, przeciążenia, czasy okrążeń i sektorów. W przyszłości planujemy integrację z dedykowanymi urządzeniami telemetrycznymi (np. Sonda Peruna) dla jeszcze potężniejszych analiz." },
-                    { q: "Kiedy Perun AI uderzy z pełną mocą (start MVP) i jak mogę dołączyć?", a: "Dokładna data objawienia mocy MVP Perun AI zostanie wkrótce ogłoszona! Najlepszym sposobem, by stanąć w pierwszym szeregu wojowników toru, otrzymać wczesny dostęp i specjalne dary, jest zapisanie się na naszą listę oczekujących poprzez formularz na tej stronie." }
+                    { q: "Co to jest ten cały Perun AI i o co w tym chodzi?", a: "Perun AI to Twój nowy, skrzydlaty najlepszy kumpel na torze! Super apka z mega-inteligentnym Bielikiem, który analizuje Twoją jazdę i podpowiada, jak być szybszym niż wiatr!" },
+                    { q: "Dla kogo jest Perun AI? Czy dla mnie też, jeśli dopiero zaczynam?", a: "Jasne, że tak! Jeśli kochasz gokarty, chcesz jeździć lepiej i masz smartfona, to Perun AI jest stworzony dla Ciebie! Nieważne, czy dopiero stawiasz pierwsze kroki na torze, czy już trochę śmigasz – Bielik pomoże każdemu!" },
+                    { q: "Skąd ten Bielik wie, co robię źle na torze?", a: "Nasz Bielik ma specjalne, magiczne AI-oczy (czyli sprytne czujniki w Twoim telefonie!), które z lotu ptaka śledzą każdy Twój manewr. Potem jego super-mądry AI-mózg wszystko analizuje i wyłapuje błędy!" },
+                    { q: "Kiedy będę mógł pogadać z tym Bielikiem i zacząć trening (start MVP)?", a: "Już niedługo nasz Bielik będzie gotowy do pierwszego wspólnego lotu! Zapisz się na listę oczekujących, a damy Ci znać jako pierwszemu, kiedy tylko otworzymy bramki do naszego gniazda pełnego wiedzy!" }
                 ].map((item, index) => `
-                <details class="bg-black p-8 rounded-xl shadow-lg border border-perun-gray-border group" ${index === 0 ? 'open' : ''}>
-                    <summary class="font-russo font-semibold text-xl text-white cursor-pointer list-none flex justify-between items-center">
+                <details class="bg-blue-700 p-5 rounded-xl shadow-lg group border-2 border-blue-800 hover:border-yellow-400 transition-colors duration-300" ${index === 0 ? 'open' : ''}>
+                    <summary class="font-fredoka text-lg sm:text-xl cursor-pointer list-none flex justify-between items-center">
                         ${item.q}
-                        <span class="perun-red transform transition-transform duration-300 group-open:rotate-180">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                        <span class="bielik-yellow transform transition-transform duration-300 group-open:rotate-[360deg] text-2xl">
+                            👇
                         </span>
                     </summary>
-                    <p class="text-perun-gray-medium mt-4 text-lg">${item.a}</p>
+                    <p class="text-blue-100 mt-3 text-sm sm:text-md">${item.a}</p>
                 </details>
                 `).join('')}
             </div>
         </div>
     </section>
 
-    <section id="formularz" class="py-20 md:py-32 perun-red-bg">
+    <section id="formularz" class="py-20 md:py-28 bg-bielik-yellow">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-russo font-black mb-8 text-white section-title-perun" style="text-shadow: 0 0 20px rgba(0,0,0,0.6);">GOTÓW POCZUĆ MOC PERUNA?</h2>
-            <p class="text-xl text-white mb-12 max-w-3xl mx-auto">
-                Nie pozwól, by inni dyktowali warunki na torze. Zapisz się na listę oczekujących Perun AI i bądź pierwszy, który doświadczy rewolucji w treningu kartingowym. Zdobądź pradawną wiedzę i specjalne artefakty na start!
+            <img src="https://placehold.co/180x180/FFFFFF/F59E0B?text=Bielik+z+Megafonem+i+Listem+Zapraszającym" 
+                 alt="Kreskówkowy Orzeł Bielik z megafonem w jednym skrzydle i listem zapraszającym w dziobie" 
+                 class="mx-auto mb-6 w-36 h-36 sm:w-44 sm:h-44">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-fredoka mb-6 text-gray-800 section-title-cartoon">DOŁĄCZ DO ESKADRY PERUN AI!</h2>
+            <p class="text-md sm:text-lg text-gray-700 mb-10 max-w-lg sm:max-w-xl mx-auto font-semibold">
+                Chcesz być pierwszy w stadzie i zgarnąć specjalne bonusy od naszego Naczelnego Bielika? Zostaw swój e-mail, a poinformujemy Cię o starcie MVP i przekażemy tajne kody do orlego skarbca!
             </p>
-            <form id="waitingListFormV3" class="max-w-xl mx-auto">
-                <div class="flex flex-col sm:flex-row gap-4 mb-6">
+            <form id="waitingListFormV7" class="max-w-md mx-auto">
+                <div class="flex flex-col sm:flex-row gap-3 mb-4">
                     <input 
                         type="email" 
-                        id="emailV3" 
-                        name="emailV3" 
-                        placeholder="Twój adres email (np. wojownik@toru.pl)" 
+                        id="emailV7" 
+                        name="emailV7" 
+                        placeholder="Twój najlepszy e-mail" 
                         required 
-                        class="flex-grow p-5 rounded-lg border-2 border-transparent focus:border-red-700 focus:ring-2 focus:ring-red-700 bg-white/95 text-gray-900 placeholder-gray-600 outline-none transition duration-300 text-lg font-semibold"
+                        class="flex-grow p-4 rounded-lg border-2 border-gray-700 focus:border-red-500 focus:ring-2 focus:ring-red-500 bg-white text-gray-800 placeholder-gray-500 outline-none transition duration-300 text-lg"
                     >
                     <button 
                         type="submit" 
-                        class="bg-black hover:bg-gray-800 text-white font-russo font-bold py-5 px-10 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-2xl text-lg button-perun-glow"
+                        class="bielik-red-bg hover:bielik-red-bg-hover text-white font-bold py-4 px-8 rounded-lg button-cartoon font-fredoka tracking-wider text-lg"
                     >
-                        CHWYĆ ZA PIORUN!
+                        LECĘ Z WAMI!
                     </button>
                 </div>
-                <div id="formMessageV3" class="mt-4 text-md h-6 text-white/90 font-semibold"></div> 
+                <div id="formMessageV7" class="mt-4 text-sm h-6 text-gray-700 font-semibold"></div> 
             </form>
         </div>
     </section>
 
-    <footer class="py-10 bg-black text-center border-t-2 border-perun-red">
+    <footer class="py-8 bg-gray-800 text-center border-t-4 border-bielik-red">
         <div class="container mx-auto px-6">
-            <p class="text-perun-gray-medium text-md">&copy; <span id="currentYearV3"></span> Perun AI. Wszelka moc zastrzeżona.</p>
-            <p class="text-perun-gray-medium text-sm mt-2">Wykonane z pasji do słowiańskiej siły, prędkości i technologii.</p>
+            <p class="text-gray-300 text-sm">&copy; <span id="currentYearV7"></span> Perun AI. Wszelkie prawa zastrzeżone przez Naczelnego Bielika i jego Super-Drużynę.</p>
+            <p class="text-gray-400 text-xs mt-1">Stworzone z pasji do latania... po torze! I dobrej zabawy! 🏁🦅🎉</p>
         </div>
     </footer>
 
     <script>
-        // Smooth scroll for navigation links
+        // Płynne przewijanie dla linków nawigacyjnych
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
+                const targetElement = document.querySelector(this.getAttribute('href'));
                 if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
 
-        // Update current year in footer
-        document.getElementById('currentYearV3').textContent = new Date().getFullYear();
+        // Aktualizacja roku w stopce
+        document.getElementById('currentYearV7').textContent = new Date().getFullYear();
 
-        // Handle waiting list form submission
-        const formV3 = document.getElementById('waitingListFormV3');
-        const formMessageV3 = document.getElementById('formMessageV3');
+        // Obsługa formularza zapisu na listę oczekujących
+        const formV7 = document.getElementById('waitingListFormV7');
+        const formMessageV7 = document.getElementById('formMessageV7');
 
-        formV3.addEventListener('submit', function(event) {
+        formV7.addEventListener('submit', function(event) {
             event.preventDefault();
-            const email = document.getElementById('emailV3').value;
+            const emailInput = document.getElementById('emailV7');
+            const email = emailInput.value;
 
+            // Prosta walidacja adresu email
             if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-                formMessageV3.textContent = 'Podaj poprawny adres email, wojowniku!';
-                formMessageV3.className = 'mt-4 text-md text-yellow-300 font-semibold';
+                formMessageV7.textContent = 'Bielik mówi: "Hola, hola! Podaj poprawny adres e-mail!"';
+                formMessageV7.className = 'mt-4 text-sm text-red-600 font-bold'; // Bardziej widoczny błąd
+                emailInput.focus(); // Ustaw fokus na polu email
                 return;
             }
             
-            formMessageV3.textContent = 'Przyzywanie mocy Peruna...';
-            formMessageV3.className = 'mt-4 text-md text-white/90 font-semibold';
+            formMessageV7.textContent = 'Przygotowujemy Twoje miejsce w gnieździe... Chwileczkę!';
+            formMessageV7.className = 'mt-4 text-sm text-gray-700 font-semibold';
 
-            // Simulate API call for form submission
+            // Symulacja wywołania API (w rzeczywistej aplikacji tutaj byłby fetch)
             setTimeout(() => {
-                formMessageV3.textContent = 'Jesteś na liście! Moc Peruna jest z Tobą!';
-                formMessageV3.className = 'mt-4 text-md text-green-300 font-bold';
-                formV3.reset(); 
+                // Symulacja sukcesu
+                formMessageV7.textContent = 'Super! Jesteś w stadzie! Bielik wkrótce się odezwie z dobrymi wieściami!';
+                formMessageV7.className = 'mt-4 text-sm text-green-600 font-bold'; // Bardziej widoczny sukces
+                formV7.reset(); 
             }, 1500);
+
+            // Przykład symulacji błędu serwera (można odkomentować do testów)
+            /*
+            setTimeout(() => {
+                formMessageV7.textContent = 'Ojej! Coś poszło nie tak po stronie naszych serwerów. Spróbuj ponownie za chwilę!';
+                formMessageV7.className = 'mt-4 text-sm text-red-600 font-bold';
+            }, 1500);
+            */
         });
     </script>
 </body>
