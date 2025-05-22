@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Analityczny Orlego Kierowcy - Perun AI</title>
+    <meta name="description" content="Zobacz swoje postępy na torze z Perun AI! Analiza historyczna i bieżąca, wykresy i wskazówki od Twojego Bielika Trenera, teraz z mocą Gemini API!">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #E0F2FE; /* Bardzo jasny błękit, jak niebo */
+            color: #1F2937; 
+        }
+        .font-fredoka {
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        .bielik-red { color: #EF4444; } 
+        .bielik-red-bg { background-color: #EF4444; }
+        .bielik-red-bg-hover:hover { background-color: #DC2626; }
+
+        .bielik-blue { color: #3B82F6; } 
+        .bielik-blue-bg { background-color: #3B82F6; }
+        .bielik-blue-bg-hover:hover { background-color: #2563EB; }
+
+        .bielik-yellow { color: #F59E0B; } 
+        .bielik-yellow-bg { background-color: #F59E0B; }
+
+        .bielik-green { color: #10B981; }
+        .bielik-green-bg { background-color: #10B981; }
+        
+        .dashboard-card {
+            background: white;
+            border: 3px solid #1F2937; 
+            box-shadow: 6px 6px 0px #9CA3AF; /* Szary cień dla kart dashboardu */
+            transition: all 0.2s ease-out;
+            border-radius: 16px;
+        }
+        .dashboard-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0px #3B82F6; /* Niebieski cień przy hover */
+        }
+        .button-cartoon { 
+            border: 3px solid #1F2937;
+            box-shadow: 4px 4px 0px #1F2937;
+            transition: all 0.15s ease-out !important;
+            font-weight: 800; 
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .button-cartoon:hover {
+            transform: translate(-2px, -2px) !important;
+            box-shadow: 6px 6px 0px #1F2937 !important;
+            background-color: #F59E0B;
+            color: #1F2937;
+        }
+        .button-cartoon:active {
+            transform: translate(2px, 2px) !important;
+            box-shadow: 2px 2px 0px #1F2937 !important;
+        }
+        .button-gemini { /* Specjalny styl dla przycisków Gemini */
+            background-color: #F59E0B; /* Żółty */
+            color: #1F2937;
+        }
+        .button-gemini:hover {
+            background-color: #EF4444; /* Czerwony przy hover */
+            color: white;
+        }
+        .section-title-dashboard {
+            text-shadow: 2px 2px 0px #A5F3FC, 4px 4px 0px #67E8F9; /* Jasnoniebieski cień */
+        }
+        .llm-comment-card {
+            background-color: #FFFAE5; 
+            border: 2px dashed #F59E0B; 
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            position: relative;
+        }
+        .llm-comment-card::before { 
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 30px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent transparent #F59E0B transparent;
+        }
+        .llm-comment-card strong {
+            color: #D97706; 
+        }
+        .gemini-response-card { /* Styl dla odpowiedzi od Gemini */
+            background-color: #E0FEFE; /* Jasno-turkusowe tło */
+            border: 2px dashed #00E6E6; 
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            position: relative;
+        }
+        .gemini-response-card::before {
+            content: "✨";
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            font-size: 1.8rem;
+            transform: rotate(-15deg);
+        }
+        .gemini-response-card strong {
+            color: #008080; /* Ciemniejszy turkus */
+        }
+        .chart-container {
+            padding: 1.5rem;
+            border-radius: 12px;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 1rem; /* Zmniejszony margines */
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3B82F6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://placehold.co/60x60/3B82F6/FFFFFF?text=🦅" alt="Logo Perun AI - Kreskówkowy Bielik" class="h-10 w-10 sm:h-12 sm:w-12 mr-3 rounded-full">
+                <h1 class="text-2xl sm:text-3xl font-fredoka bielik-blue">
+                    PERUN<span class="bielik-red">.AI</span> <span class="text-lg sm:text-xl text-gray-600 font-nunito">- Panel Orlego Kierowcy</span>
+                </h1>
+            </div>
+            <span class="font-semibold text-gray-700 text-sm sm:text-base">Witaj, Wojtek Orliński!</span>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 py-8">
+
+        <section id="summary" class="mb-12">
+            <h2 class="text-3xl sm:text-4xl font-fredoka text-center mb-8 text-gray-800 section-title-dashboard">Twój Orli Przegląd Osiągnięć! 📊</h2>
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="dashboard-card p-6 text-center">
+                    <img src="https://placehold.co/80x80/FEF3C7/F59E0B?text=🏆" alt="Puchar za najlepszy czas" class="mx-auto mb-3 h-16 w-16">
+                    <h3 class="text-xl font-fredoka text-gray-700 mb-1">Najlepszy Czas Okrążenia</h3>
+                    <p class="text-3xl font-bold bielik-red" id="bestLapTime">1:02.345</p>
+                    <p class="text-sm text-gray-500">(Sesja z 20.05.2025)</p>
+                </div>
+                <div class="dashboard-card p-6 text-center">
+                    <img src="https://placehold.co/80x80/DBEAFE/3B82F6?text=🏎️💨" alt="Gokart w ruchu" class="mx-auto mb-3 h-16 w-16">
+                    <h3 class="text-xl font-fredoka text-gray-700 mb-1">Łączna Liczba Przejazdów</h3>
+                    <p class="text-3xl font-bold bielik-blue">128</p>
+                    <p class="text-sm text-gray-500">Od początku przygody!</p>
+                </div>
+                <div class="dashboard-card p-6 text-center">
+                     <img src="https://placehold.co/80x80/D1FAE5/10B981?text=📅" alt="Kalendarz z ostatnią sesją" class="mx-auto mb-3 h-16 w-16">
+                    <h3 class="text-xl font-fredoka text-gray-700 mb-1">Ostatnia Sesja</h3>
+                    <p class="text-2xl font-bold bielik-green" id="lastSessionTime">1:03.112</p>
+                    <p class="text-sm text-gray-500">(21.05.2025 - Tor KartPlanet)</p>
+                </div>
+            </div>
+            <div class="llm-comment-card">
+                <p class="text-gray-700"><strong class="font-fredoka">Bielik Mówi:</strong> Hej, <strong id="userName">Wojtek Orliński</strong>! Twój Orli Panel jest gotowy do startu! Zobaczmy, jak dzisiaj szybowałeś po torze! Pamiętaj, każdy lot, nawet ten z małym potknięciem o krawężnik, to krok do mistrzostwa i super zabawy! Jestem tu, by pomóc Ci rozwinąć skrzydła! 🦅💨</p>
+            </div>
+        </section>
+
+        <section id="progress" class="mb-12">
+            <h2 class="text-3xl sm:text-4xl font-fredoka text-center mb-8 text-gray-800 section-title-dashboard">Twój Lot ku Mistrzostwu! 📈</h2>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="chart-container">
+                    <h3 class="text-xl font-fredoka text-center mb-4 text-gray-700">Ewolucja Czasu Okrążenia (Ostatnie 10 Sesji)</h3>
+                    <canvas id="lapTimeEvolutionChart"></canvas>
+                    <div class="llm-comment-card">
+                        <p class="text-sm text-gray-700" id="lapTimeEvolutionComment"><strong class="font-fredoka">Bielik Analizuje:</strong> Wow, Wojtek! Zobacz na ten wykres! Twoje czasy pikują w dół niczym Bielik na polowaniu na rekordy! Widać, że ciężko pracujesz i to przynosi efekty. Szczególnie imponujący jest skok między 4. a 5. sesją – co tam się wydarzyło? Jakaś nowa technika? Super! Tak trzymaj, a niedługo będziesz latał jak ja! 😉</p>
+                    </div>
+                    <div id="geminiAdviceLapTime" class="gemini-response-card hidden"></div>
+                    <button class="button-cartoon button-gemini mt-4 py-2 px-4 w-full" onclick="getGeminiAdvice('lapTimeEvolution')">✨ Zapytaj Super-Bielika o Radę! <span id="loadingLapTime" class="loading-spinner hidden"></span></button>
+                </div>
+                <div class="chart-container">
+                    <h3 class="text-xl font-fredoka text-center mb-4 text-gray-700">Poprawa w Sektorach (Średnia: Pierwsze 5 vs Ostatnie 5 Sesji)</h3>
+                    <canvas id="sectorImprovementChart"></canvas>
+                     <div class="llm-comment-card">
+                        <p class="text-sm text-gray-700" id="sectorImprovementComment"><strong class="font-fredoka">Bielik Podpowiada:</strong> Patrz, patrz! Sektor 2 to teraz Twoje królestwo – największa poprawa! 💪 To pokazuje, że skupienie na konkretnych częściach toru daje super rezultaty. Sektor 1 też wygląda coraz lepiej. Może następnym razem poświęcimy więcej uwagi Sektorowi 3? Widzę tam jeszcze ukryty potencjał do urwania cennych dziesiątych sekundy! Co Ty na to, młody Orle?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="last-session" class="mb-12">
+            <h2 class="text-3xl sm:text-4xl font-fredoka text-center mb-8 text-gray-800 section-title-dashboard">Analiza Ostatniej Szarży! (Sesja z 21.05.2025) 🧐</h2>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="chart-container">
+                    <h3 class="text-xl font-fredoka text-center mb-4 text-gray-700">Czasy Okrążeń z Ostatniej Sesji</h3>
+                    <canvas id="lastSessionLapsChart"></canvas>
+                    <div class="llm-comment-card">
+                        <p class="text-sm text-gray-700"><strong class="font-fredoka">Bielik Komentuje:</strong> Hoho! Ostatnia sesja była naprawdę ODLOTOWA! Twoje najlepsze okrążenie (1:03.112) to prawdziwy majstersztyk! Widać też fajną powtarzalność w środkowej części sesji. Te kilka wolniejszych kółek na początku to pewnie rozgrzewka opon, co? 😉 Ważne, że potem pokazałeś pazur!</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3 class="text-xl font-fredoka text-center mb-4 text-gray-700">Profil Prędkości Najlepszego Okrążenia vs. Benchmark Bielika</h3>
+                    <canvas id="speedProfileChart"></canvas>
+                    <div class="llm-comment-card">
+                        <p class="text-sm text-gray-700"><strong class="font-fredoka">Bielik Porównuje:</strong> A teraz zobaczmy, jak Twoje najlepsze kółko wypada na tle mojego benchmarku! W Zakręcie Leśnym (ok. 800m) jedziesz prawie jak ja – super! Ale spójrz na wyjście z Nawrotu (ok. 1200m) – tam możesz jeszcze troszkę wcześniej dodać gazu. Mój benchmark pokazuje, że jest tam przestrzeń do poprawy. Dasz radę następnym razem! 👍</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bielik-tips" class="mb-12">
+            <h2 class="text-3xl sm:text-4xl font-fredoka text-center mb-8 text-gray-800 section-title-dashboard">Bielik Radzi: Twoje Orle Wskazówki! 💡</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="dashboard-card p-6">
+                    <img src="https://placehold.co/80x80/FEE2E2/EF4444?text=🎯" alt="Celownik" class="mx-auto mb-3 h-16 w-16">
+                    <h3 class="text-xl font-fredoka text-center text-gray-700 mb-2">Główny Cel na Horyzoncie</h3>
+                    <div class="llm-comment-card">
+                        <p class="text-sm text-gray-700" id="mainGoalComment"><strong class="font-fredoka">Bielik Mówi:</strong> Wojtek, Twój punkt hamowania przed Nawrotem (tym ostatnim, wrednym!) jest troszkę za wczesny. To jakby Bielik lądował za wcześnie przed gniazdem! Spróbuj opóźnić go o długość gokarta – poczujesz różnicę na wyjściu i zyskasz cenne ułamki sekund! Pamiętaj, Orły nie boją się późnego hamowania, gdy sytuacja tego wymaga! 😉</p>
+                    </div>
+                    <div id="geminiAdviceMainGoal" class="gemini-response-card hidden"></div>
+                    <button class="button-cartoon button-gemini mt-4 py-2 px-4 w-full" onclick="getGeminiAdvice('mainGoal')">✨ Dopytaj Super-Bielika! <span id="loadingMainGoal" class="loading-spinner hidden"></span></button>
+                </div>
+                <div class="dashboard-card p-6">
+                    <img src="https://placehold.co/80x80/D1FAE5/10B981?text=💪" alt="Biceps/Siła" class="mx-auto mb-3 h-16 w-16">
+                    <h3 class="text-xl font-fredoka text-center text-gray-700 mb-2">Twoja Super-Moc!</h3>
+                     <div class="llm-comment-card">
+                        <p class="text-sm text-gray-700"><strong class="font-fredoka">Bielik Chwali:</strong> Szykana Leśna to Twój żywioł! Przechodzisz ją z gracją i prędkością godną króla przestworzy. Twoja płynność tam jest imponująca – jak lot Bielika na termice! Wykorzystaj tę umiejętność, by zyskać przewagę nad rywalami i budować pewność siebie! Brawo Ty! 🌟</p>
+                    </div>
+                </div>
+                <div class="dashboard-card p-6">
+                    <img src="https://placehold.co/80x80/DBEAFE/3B82F6?text=🚀" alt="Rakieta/Wyzwanie" class="mx-auto mb-3 h-16 w-16">
+                    <h3 class="text-xl font-fredoka text-center text-gray-700 mb-2">Wyzwanie Bielika!</h3>
+                    <div class="llm-comment-card">
+                        <p class="text-sm text-gray-700"><strong class="font-fredoka">Bielik Rzuca Wyzwanie:</strong> Przyjmujesz wyzwanie, młody Orle? Skup się na Sektorze 1 podczas następnej jazdy. Moje AI-oko widzi tam potencjał na urwanie co najmniej 0.150 sekundy! Skoncentruj się na płynnym wyjściu z pierwszego zakrętu i optymalnym wykorzystaniu tarki. Wierzę, że dasz radę! Pokaż, na co Cię stać! Powodzenia! 🏆</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="training-plan" class="mb-12">
+            <h2 class="text-3xl sm:text-4xl font-fredoka text-center mb-8 text-gray-800 section-title-dashboard">✨ Plan Treningowy od Generała Bielika! ✨</h2>
+            <div class="dashboard-card p-6">
+                <div class="text-center mb-6">
+                    <img src="https://placehold.co/100x100/F59E0B/FFFFFF?text=📜+🦅" alt="Bielik z planem treningowym" class="mx-auto mb-3 h-20 w-20">
+                    <p class="text-gray-600">Generał Bielik przeanalizował Twoje ostatnie loty i przygotował specjalny plan treningowy na najbliższy tydzień, abyś wzbił się na jeszcze wyższy poziom! Gotów na wyzwanie?</p>
+                </div>
+                <div id="geminiTrainingPlan" class="gemini-response-card hidden min-h-[150px]">
+                    <p class="text-center text-gray-500">Kliknij przycisk, aby Bielik wygenerował Twój plan!</p>
+                </div>
+                <button class="button-cartoon button-gemini mt-6 py-3 px-6 w-full text-lg" onclick="generateTrainingPlan()">
+                    ✨ Generuj Mój Orli Plan Treningowy! 
+                    <span id="loadingTrainingPlan" class="loading-spinner hidden"></span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-8 bg-gray-800 text-center border-t-4 bielik-red-border">
+        <div class="container mx-auto px-6">
+            <p class="text-gray-300 text-sm">&copy; <span id="currentYearV7_dashboard"></span> Perun AI. Wszelkie prawa zastrzeżone przez Naczelnego Bielika i jego Super-Drużynę Analityków.</p>
+            <p class="text-gray-400 text-xs mt-1">Analizujemy, byś Ty mógł latać... po torze! 🏁🦅🎉</p>
+        </div>
+    </footer>
+
+    <script>
+        // Aktualizacja roku w stopce
+        document.getElementById('currentYearV7_dashboard').textContent = new Date().getFullYear();
+
+        // Dane do wykresów (przykładowe)
+        const lapTimeData = {
+            labels: ['Sesja 1', 'Sesja 2', 'Sesja 3', 'Sesja 4', 'Sesja 5', 'Sesja 6', 'Sesja 7', 'Sesja 8', 'Sesja 9', 'Sesja 10'],
+            datasets: [{
+                label: 'Najlepszy Czas Okrążenia (s)',
+                data: [65.2, 64.8, 64.9, 64.5, 63.8, 63.9, 63.5, 63.2, 63.3, 62.8],
+                borderColor: '#3B82F6', 
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                tension: 0.1,
+                fill: true,
+                borderWidth: 2
+            }]
+        };
+        // ... (reszta danych wykresów bez zmian) ...
+        const sectorImprovementData = {
+            labels: ['Sektor 1', 'Sektor 2', 'Sektor 3'],
+            datasets: [
+                {
+                    label: 'Śr. Czas - Pierwsze 5 Sesji (s)',
+                    data: [22.5, 20.8, 21.5],
+                    backgroundColor: '#FBBF24', 
+                    borderColor: '#F59E0B',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Śr. Czas - Ostatnie 5 Sesji (s)',
+                    data: [22.1, 19.9, 21.2],
+                    backgroundColor: '#10B981', 
+                    borderColor: '#059669',
+                    borderWidth: 1
+                }
+            ]
+        };
+        
+        const lastSessionLapsData = {
+            labels: ['Okr. 1', 'Okr. 2', 'Okr. 3', 'Okr. 4', 'Okr. 5', 'Okr. 6', 'Okr. 7', 'Okr. 8', 'Okr. 9', 'Okr. 10'],
+            datasets: [{
+                label: 'Czas Okrążenia (s)',
+                data: [65.1, 64.5, 63.8, 63.5, 63.112, 63.3, 63.4, 63.2, 64.0, 63.6],
+                borderColor: '#EF4444', 
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                tension: 0.1,
+                fill: true,
+                borderWidth: 2
+            }]
+        };
+
+        const speedProfileData = {
+            labels: Array.from({length: 15}, (_, i) => `${i*100}m`), 
+            datasets: [
+                {
+                    label: 'Twoja Prędkość (km/h)',
+                    data: [0, 30, 55, 70, 65, 50, 40, 60, 75, 80, 70, 55, 45, 65, 0],
+                    borderColor: '#3B82F6', 
+                    tension: 0.2,
+                    borderWidth: 3,
+                    pointRadius: 0,
+                },
+                {
+                    label: 'Benchmark Bielika (km/h)',
+                    data: [0, 32, 58, 72, 68, 53, 42, 63, 78, 82, 73, 58, 48, 68, 0],
+                    borderColor: '#F59E0B', 
+                    borderDash: [5, 5],
+                    tension: 0.2,
+                    borderWidth: 2,
+                    pointRadius: 0,
+                }
+            ]
+        };
+
+
+        // Inicjalizacja wykresów
+        window.onload = function() {
+            const ctxLapTime = document.getElementById('lapTimeEvolutionChart')?.getContext('2d');
+            if (ctxLapTime) new Chart(ctxLapTime, { type: 'line', data: lapTimeData, options: { responsive: true, maintainAspectRatio: false } });
+
+            const ctxSectorImprovement = document.getElementById('sectorImprovementChart')?.getContext('2d');
+            if (ctxSectorImprovement) new Chart(ctxSectorImprovement, { type: 'bar', data: sectorImprovementData, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true }} } });
+            
+            const ctxLastSessionLaps = document.getElementById('lastSessionLapsChart')?.getContext('2d');
+            if (ctxLastSessionLaps) new Chart(ctxLastSessionLaps, { type: 'line', data: lastSessionLapsData, options: { responsive: true, maintainAspectRatio: false } });
+
+            const ctxSpeedProfile = document.getElementById('speedProfileChart')?.getContext('2d');
+            if (ctxSpeedProfile) new Chart(ctxSpeedProfile, { type: 'line', data: speedProfileData, options: { responsive: true, maintainAspectRatio: false, elements: { line: { fill: false } } } });
+        };
+
+        // Funkcje Gemini API
+        const apiKey = ""; // Klucz API - pozostaw pusty, Canvas dostarczy go w runtime
+
+        async function callGeminiAPI(prompt) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error("Błąd API:", response.status, errorData);
+                    return `Przepraszam, Super-Bielik ma chwilową czkawkę i nie może teraz odpowiedzieć (Błąd: ${response.status}). Spróbuj za moment!`;
+                }
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("Nieoczekiwana struktura odpowiedzi:", result);
+                    return "Hmm, Super-Bielik zgubił gdzieś swoje mądre słowa. Spróbuj jeszcze raz!";
+                }
+            } catch (error) {
+                console.error("Błąd połączenia z API Gemini:", error);
+                return "Ojej! Wygląda na to, że gołąb pocztowy z moją odpowiedzią zgubił się w chmurach. Sprawdź połączenie i spróbuj ponownie!";
+            }
+        }
+
+        async function getGeminiAdvice(adviceType) {
+            let promptContext = "";
+            let responseElementId = "";
+            let loadingElementId = "";
+            const userName = document.getElementById('userName')?.textContent || "Kierowco";
+
+            if (adviceType === 'lapTimeEvolution') {
+                const lapTimes = lapTimeData.datasets[0].data.join(', ');
+                const currentComment = document.getElementById('lapTimeEvolutionComment')?.innerText || "Twoje czasy okrążeń ewoluują.";
+                promptContext = `Jestem amatorem kartingu, ${userName}. Moje ostatnie 10 najlepszych czasów okrążeń to: ${lapTimes} sekund. Mój obecny komentarz od trenera Bielika brzmi: "${currentComment}".`;
+                responseElementId = 'geminiAdviceLapTime';
+                loadingElementId = 'loadingLapTime';
+                document.getElementById(loadingElementId).classList.remove('hidden');
+                const prompt = `${promptContext} Jako Super-Bielik, mój jeszcze mądrzejszy trener AI, podpowiedz mi w zabawny i motywujący sposób, na czym powinienem się teraz skupić, aby dalej poprawiać swoje czasy? Daj mi 2-3 konkretne, krótkie wskazówki. Pamiętaj o swoim orlim stylu! Odpowiedz po polsku.`;
+                const advice = await callGeminiAPI(prompt);
+                const responseCard = document.getElementById(responseElementId);
+                responseCard.innerHTML = `<p class="text-sm text-gray-700"><strong class="font-fredoka">Super-Bielik Radzi:</strong> ${advice.replace(/\n/g, '<br>')}</p>`;
+                responseCard.classList.remove('hidden');
+                document.getElementById(loadingElementId).classList.add('hidden');
+
+            } else if (adviceType === 'mainGoal') {
+                const currentGoalComment = document.getElementById('mainGoalComment')?.innerText || "Masz cel dotyczący punktu hamowania.";
+                promptContext = `Jestem amatorem kartingu, ${userName}. Mój obecny główny cel od trenera Bielika to: "${currentGoalComment}".`;
+                responseElementId = 'geminiAdviceMainGoal';
+                loadingElementId = 'loadingMainGoal';
+                document.getElementById(loadingElementId).classList.remove('hidden');
+                const prompt = `${promptContext} Jako Super-Bielik, mój super-inteligentny trener AI, rozwiń tę poradę. Daj mi jedną dodatkową, kreatywną wskazówkę lub ćwiczenie, które pomoże mi zrealizować ten cel. Utrzymaj zabawny, orli ton! Odpowiedz po polsku.`;
+                const advice = await callGeminiAPI(prompt);
+                const responseCard = document.getElementById(responseElementId);
+                responseCard.innerHTML = `<p class="text-sm text-gray-700"><strong class="font-fredoka">Super-Bielik Precyzuje:</strong> ${advice.replace(/\n/g, '<br>')}</p>`;
+                responseCard.classList.remove('hidden');
+                document.getElementById(loadingElementId).classList.add('hidden');
+            }
+        }
+
+        async function generateTrainingPlan() {
+            const loadingElement = document.getElementById('loadingTrainingPlan');
+            const responseElement = document.getElementById('geminiTrainingPlan');
+            const userName = document.getElementById('userName')?.textContent || "Drogi Kierowco";
+            const bestLap = document.getElementById('bestLapTime')?.textContent || "nieznany";
+            const lastSession = document.getElementById('lastSessionTime')?.textContent || "nieznana";
+            const sectorImprovementComment = document.getElementById('sectorImprovementComment')?.innerText || "brak danych o sektorach";
+            const mainGoalComment = document.getElementById('mainGoalComment')?.innerText || "brak głównego celu";
+
+            loadingElement.classList.remove('hidden');
+            responseElement.innerHTML = `<p class="text-center text-gray-500">Generał Bielik już kombinuje Twój plan... To wymaga skupienia!</p>`;
+            responseElement.classList.remove('hidden');
+
+            const prompt = `Jako Generał Bielik, najwyższy rangą trener AI dla kierowcy kartingowego o imieniu ${userName}, przygotuj spersonalizowany, tygodniowy plan treningowy. 
+            Oto podsumowanie jego ostatnich osiągnięć:
+            - Najlepszy czas okrążenia: ${bestLap}
+            - Czas ostatniej sesji: ${lastSession}
+            - Komentarz dotyczący poprawy w sektorach: "${sectorImprovementComment}"
+            - Główny cel od trenera Bielika: "${mainGoalComment}"
+
+            Plan powinien być zabawny, motywujący i zawierać:
+            1.  Główny cel na ten tydzień (1 zdanie).
+            2.  Trzy kluczowe obszary do poprawy (np. technika hamowania, płynność w szykanach, koncentracja).
+            3.  Propozycje 2-3 konkretnych ćwiczeń lub zadań na torze (jeśli to możliwe) lub mentalnych do wykonania w tygodniu.
+            4.  Krótką, orlą poradę motywacyjną na koniec.
+            Pamiętaj o swoim generalskim, ale wciąż zabawnym i kreskówkowym stylu! Odpowiedz po polsku, używając formatowania markdown (np. nagłówki, listy).`;
+
+            const plan = await callGeminiAPI(prompt);
+            // Proste parsowanie markdown do HTML (można rozbudować)
+            let htmlPlan = plan.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+            htmlPlan = htmlPlan.replace(/### (.*?)<br>/g, '<h3><strong>$1</strong></h3>');
+            htmlPlan = htmlPlan.replace(/## (.*?)<br>/g, '<h2><strong>$1</strong></h2>');
+            htmlPlan = htmlPlan.replace(/\* (.*?)<br>/g, '<li>$1</li>');
+            htmlPlan = htmlPlan.replace(/<br><li>/g, '<li>'); // Poprawka dla list
+             if (htmlPlan.includes('<li>')) {
+                htmlPlan = '<ul>' + htmlPlan.replace(/<li>(.*?)<\/li>/g, '<li class="list-disc ml-5">$1</li>') + '</ul>';
+                htmlPlan = htmlPlan.replace(/<\/li><br><ul>/g, '</li></ul><br><ul>'); // Poprawka dla wielokrotnych list
+            }
+
+
+            responseElement.innerHTML = `<div class="text-sm text-gray-700">${htmlPlan}</div>`;
+            loadingElement.classList.add('hidden');
+        }
+
+    </script>
+</body>
+</html>
